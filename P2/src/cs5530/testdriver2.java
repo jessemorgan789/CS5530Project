@@ -36,10 +36,11 @@ public class testdriver2 {
 	{
 		System.out.println("        Thank you for logging in     ");
    	 	System.out.println("1. Add new Car");
-   	 	System.out.println("2. Search for Cars:");
-   	 	System.out.println("3. Get Feedback for Uber Driver:");
-	 	System.out.println("4. Get Suggestions:");
-	 	System.out.println("5. Get Statistics:");
+   	 	System.out.println("2. Update existing Car");
+   	 	System.out.println("3. Search for Cars:");
+   	 	System.out.println("4. Get Feedback for Uber Driver:");
+	 	System.out.println("5. Get Suggestions:");
+	 	System.out.println("6. Get Statistics:");
    	 	System.out.println("please enter your choice:");
 	}
 	
@@ -143,11 +144,11 @@ public class testdriver2 {
 	            	 {	 
 	            		 String UserName;
 	            	 	 String Password;
+	            	 	 Registration login = new Registration();
 	            		 System.out.println("please enter UserName Below:");
 	            		 while ((UserName = in.readLine()) == null && UserName.length() == 0)
 	            		 System.out.println("please enter Password Below:");
-	            		 while ((Password = in.readLine()) == null && Password.length() == 0)
-	            	     Registration login = new Registration();
+	            		 while ((Password = in.readLine()) == null && Password.length() == 0);
 	            		 String isSuccessful = login.checkRegistration(UserName, Password, con.stmt);
 	            		 if(isSuccessful == "There is a user with that name or password already")
 	            		 {
@@ -173,6 +174,7 @@ public class testdriver2 {
 	    	            	 }
 	    	            	 if (c==3)
 	    	            	 {
+	    	            		 
 	    	            		 // Declare favorite Car
 	    	            	 }
 	    	            	 if (c==4)
@@ -223,19 +225,24 @@ public class testdriver2 {
 	    	            	 }
 	    	            	 if (c==2)
 	    	            	 {
-	    	            		//2. Search for Cars
+	    	            		//2. Update Existing car
 	    	            	 }
 	    	            	 if (c==3)
 	    	            	 {
-	    	            		//3. Get Feedback for Uber Driver
+	    	            		//Search for a Car
+	    	            		
 	    	            	 }
 	    	            	 if (c==4)
 	    	            	 {
-	    	            		//4. Get Suggestions
+	    	            		//4. Get Feedback for Uber Driver
 	    	            	 }
 	    	            	 if (c==5)
 	    	            	 {
-	    	            		//5. Get Statistics
+	    	            		//5. Get Suggestions
+	    	            	 }
+	    	            	 if (c==6)
+	    	            	 {
+	    	            		//6. Get Statistics
 	    	            	 }
 	            		 }
 	            		 else {
