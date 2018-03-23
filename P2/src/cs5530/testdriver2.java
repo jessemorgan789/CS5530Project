@@ -24,15 +24,22 @@ public class testdriver2 {
    	 	System.out.println("1. Make a Reservation:");
    	 	System.out.println("2. Record a Ride:");
    	 	System.out.println("3. Declare favorite Car:");
-   	 	System.out.println("4. Make a Reservation:");
-	 	System.out.println("5. Record a Ride:");
-	 	System.out.println("6. Declare favorite Car:");
-	 	System.out.println("7. Give Feedback:");
-   	 	System.out.println("8. Rate other Feedback:");
-   	 	System.out.println("9. Search for Cars:");
-   	 	System.out.println("10. Get Feedback for Uber Driver:");
-	 	System.out.println("11. Get Suggestions:");
-	 	System.out.println("12. Get Statistics:");
+	 	System.out.println("4. Give Feedback:");
+   	 	System.out.println("5. Rate other Feedback:");
+   	 	System.out.println("6. Search for Cars:");
+   	 	System.out.println("7. Get Feedback for Uber Driver:");
+	 	System.out.println("8. Get Suggestions:");
+	 	System.out.println("9. Get Statistics:");
+   	 	System.out.println("please enter your choice:");
+	}
+	public static void displayMenuForDriver()
+	{
+		System.out.println("        Thank you for logging in     ");
+   	 	System.out.println("1. Add new Car");
+   	 	System.out.println("2. Search for Cars:");
+   	 	System.out.println("3. Get Feedback for Uber Driver:");
+	 	System.out.println("4. Get Suggestions:");
+	 	System.out.println("5. Get Statistics:");
    	 	System.out.println("please enter your choice:");
 	}
 	
@@ -134,62 +141,109 @@ public class testdriver2 {
 	            	 }
 	            	 else if (c==2)
 	            	 {	 
-	            		 System.out.println("please enter your query below:");
-	            		 while ((sql = in.readLine()) == null && sql.length() == 0)
-	            			 System.out.println(sql);
-	            		 ResultSet rs=con.stmt.executeQuery(sql);
-	            		 ResultSetMetaData rsmd = rs.getMetaData();
-	            		 int numCols = rsmd.getColumnCount();
-	            		 while (rs.next())
+	            		 String UserName;
+	            	 	 String Password;
+	            		 System.out.println("please enter UserName Below:");
+	            		 while ((UserName = in.readLine()) == null && UserName.length() == 0)
+	            		 System.out.println("please enter Password Below:");
+	            		 while ((Password = in.readLine()) == null && Password.length() == 0)
+	            	     Registration login = new Registration();
+	            		 String isSuccessful = login.checkRegistration(UserName, Password, con.stmt);
+	            		 if(isSuccessful == "There is a user with that name or password already")
 	            		 {
-	            			 //System.out.print("cname:");
-	            			 for (int i=1; i<=numCols;i++)
-	            				 System.out.print(rs.getString(i)+"  ");
-	            			 System.out.println("");
+	            			 String choice2;
+	            			 System.out.println("Login Successful");
+	            			 displayMenuForUser();
+	            			 while ((choice2 = in.readLine()) == null && choice2.length() == 0);
+	    	            	 try{
+	    	            		 c = Integer.parseInt(choice2);
+	    	            	 }catch (Exception e)
+	    	            	 {	    	            		 
+	    	            		 continue;
+	    	            	 }
+	    	            	 if (c<1 | c>3)
+	    	            		 continue;
+	    	            	 if (c==1)
+	    	            	 {
+	    	            		 //make reservation
+	    	            	 }
+	    	            	 if (c==2)
+	    	            	 {
+	    	            		 //Record a ride
+	    	            	 }
+	    	            	 if (c==3)
+	    	            	 {
+	    	            		 // Declare favorite Car
+	    	            	 }
+	    	            	 if (c==4)
+	    	            	 {
+	    	            		 //Give Feedback
+	    	            	 }
+	    	            	 if (c==5)
+	    	            	 {
+	    	            		 //Rate other Feedback
+	    	            	 }
+	    	            	 if (c==6)
+	    	            	 {
+	    	            		 //Search for Cars
+	    	            	 }
+	    	            	 if (c==7)
+	    	            	 {
+	    	            		 //Get Feedback for Uber Driver
+	    	            	 }
+	    	            	 if (c==8)
+	    	            	 {
+	    	            		 //Get Suggestions
+	    	            	 }
+	    	            	 if (c==9)
+	    	            	 {
+	    	            		 //Get Statistics
+	    	            	 }
+	    	            	 
 	            		 }
-	            		 System.out.println(" ");
-	            		 rs.close();
+	            		 else if(isSuccessful =="There is a dirver with that name or password already" )
+	            		 {
+	            			 String choice2;
+	            			 System.out.println("Login Successful");
+	            			 displayMenuForDriver();
+	            			 while ((choice2 = in.readLine()) == null && choice2.length() == 0);
+	    	            	 try{
+	    	            		 c = Integer.parseInt(choice);
+	    	            	 }catch (Exception e)
+	    	            	 {
+	    	            		 
+	    	            		 continue;
+	    	            	 }
+	    	            	 if (c<1 | c>3)
+	    	            		 continue;
+	    	            	 if (c==1)
+	    	            	 {
+	    	            		 //1. Add new Car
+	    	            	 	 	    	            		 
+	    	            	 }
+	    	            	 if (c==2)
+	    	            	 {
+	    	            		//2. Search for Cars
+	    	            	 }
+	    	            	 if (c==3)
+	    	            	 {
+	    	            		//3. Get Feedback for Uber Driver
+	    	            	 }
+	    	            	 if (c==4)
+	    	            	 {
+	    	            		//4. Get Suggestions
+	    	            	 }
+	    	            	 if (c==5)
+	    	            	 {
+	    	            		//5. Get Statistics
+	    	            	 }
+	            		 }
+	            		 else {
+	            			 System.out.println("login Failed");
+	            			 
+	            		 }
 	            	 }
-	            	 if (c==3)
-	            	 {
-	            		 //Declare favorite Car method
-	            	 }
-	            	 if (c==4)
-	            	 {
-	            		 //Make a Reservation
-	            	 }
-	            	 if (c==5)
-	            	 {
-	            		 //Record a Ride
-	            	 }
-	            	 if (c==6)
-	            	 {
-	            		 //Declare a Favorite Car
-	            	 }
-	            	 if (c==7)
-	            	 {
-	            		 //Give Feedback
-	            	 }
-	            	 if (c==8)
-	            	 {
-	            		 //Rate other Feedback
-	            	 }
-	            	 if (c==9)
-	            	 {
-	            		 //Search for Cars
-	            	 }
-	            	 if (c==10)
-	            	 {
-	            		 //Give Feedback for Uber Driver
-	            	 }
-	            	 if (c==11)
-	            	 {
-	            		 //Get Suggestions
-	            	 }
-	            	 if (c==12)
-	            	 {
-	            		 //Get Statistics
-	            	 }
+	            	 
 	            	 else
 	            	 {   
 	            		 System.out.println("EoM");
