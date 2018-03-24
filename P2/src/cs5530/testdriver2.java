@@ -3,6 +3,8 @@ package cs5530;
 
 import java.lang.*;
 import java.sql.*;
+import java.util.ArrayList;
+import java.awt.List;
 import java.io.*;
 
 public class testdriver2 {
@@ -30,6 +32,7 @@ public class testdriver2 {
    	 	System.out.println("7. Get Feedback for Uber Driver:");
 	 	System.out.println("8. Get Suggestions:");
 	 	System.out.println("9. Get Statistics:");
+	 	System.out.println("9. Mark other Users as trusted:");
    	 	System.out.println("please enter your choice:");
 	}
 	public static void displayMenuForDriver()
@@ -146,7 +149,7 @@ public class testdriver2 {
 	            	 	 String Password;
 	            	 	 Registration login = new Registration();
 	            		 System.out.println("please enter UserName Below:");
-	            		 while ((UserName = in.readLine()) == null && UserName.length() == 0)
+	            		 while ((UserName = in.readLine()) == null && UserName.length() == 0);
 	            		 System.out.println("please enter Password Below:");
 	            		 while ((Password = in.readLine()) == null && Password.length() == 0);
 	            		 String isSuccessful = login.checkRegistration(UserName, Password, con.stmt);
@@ -167,6 +170,76 @@ public class testdriver2 {
 	    	            	 if (c==1)
 	    	            	 {
 	    	            		 //make reservation
+	    	            		 boolean wantToContinue = true;
+	    	            		 List userChoices = new List();
+	    	            		 while (wantToContinue)
+	    	            		 {
+	    	            			 String vin;
+	    	            			 String DriverID;
+	    	            			 String pid;
+	    	            			 Reservation Res = new Reservation();
+	    	            			 System.out.println("please enter Vehicle ID you want to reserve Below:");
+	    		            		 while ((vin = in.readLine()) == null && vin.length() == 0);
+	    		            		 DriverID = Res.printAvalibleAndGetDriver(vin, con.stmt);
+	    		            		 System.out.println("please select pid from above:");
+	    		            		 while ((pid = in.readLine()) == null && pid.length() == 0);
+	    		            		 String answer = Res.checkReserveTime(DriverID, vin, pid, con.stmt);
+	    		            		 System.out.println(answer);
+	    		            		 if(answer == "Slot avalible")
+	    		            		 {
+	    		            			 String date;
+	    		            			 String cost;
+	    		            			 System.out.println("please enter the date you want to reserve Below:");
+		    		            		 while ((date = in.readLine()) == null && date.length() == 0);
+		    		            		 System.out.println("please enter the cost:");
+		    		            		 while ((cost = in.readLine()) == null && cost.length() == 0);
+		    		            		 String userObject = new String();
+		    		            		 userObject = DriverID + " " + vin + " " + pid + " " + cost + " " +date;
+		    		            		 userChoices.add(userObject);
+	    		            		 }
+	    		            		 else {
+	    		            			 String keepGoing;
+	    		            			 System.out.println("Do you want to continue? 1 for yes 2 for no ");
+	    		            			 while ((keepGoing = in.readLine()) == null && keepGoing.length() == 0);
+	    		            			 if(keepGoing == "1")
+	    		            			 {
+	    		            				 continue;
+	    		            			 }
+	    		            			 else if(keepGoing == "2")
+	    		            			 {
+	    		            				 wantToContinue = false;
+	    		            			 }
+	    		            		 }
+	    		            		 
+	    	            		 }
+	    	            		 String finish;
+	    	            		 System.out.println("Here are your selections");
+	    	            		 for(int i = 0; i < userChoices.getItemCount(); i++)
+	    	            		 {
+	    	            			 System.out.println(userChoices.getItem(i));
+	    	            		 }
+	    	            		 System.out.println("Are these okay? 1 for Yes 2 for No");
+	    	            		 while ((finish = in.readLine()) == null && finish.length() == 0);
+	    	            		 Reservation newRes = new Reservation();
+	    	            		 if(finish == "1")
+	    	            		 {
+	    	            			 String DrID;
+    	            				 String VIN;
+    	            				 String PID;
+    	            				 String COST;
+    	            				 String DATE;
+	    	            			 for(int i = 0; i < userChoices.getItemCount(); i++)
+		    	            		 {
+	    	            				 
+		    	            			 String[] parts = userChoices.getItem(i).split(" ");
+		    	            			 DrID = parts[0];
+		    	            			 VIN= parts[1];
+	    	            				 PID= parts[2];
+	    	            				 COST= parts[3];
+	    	            				 DATE= parts[4];
+	    	            				 newRes.makeReservation(DrID, VIN, PID, COST, DATE, con.stmt);
+		    	            		 }
+	    	            		 }
 	    	            	 }
 	    	            	 if (c==2)
 	    	            	 {
@@ -184,6 +257,14 @@ public class testdriver2 {
 	    	            	 if (c==5)
 	    	            	 {
 	    	            		 //Rate other Feedback
+	    	            		 String rating;
+	    	            		 String FeedBackID;
+	    	            		 usefullnessRating Rating = new usefullnessRating();
+	    	            		 System.out.println("please enter Rating Below:");
+	    	            		 while ((rating = in.readLine()) == null && rating.length() == 0);
+	    	            		 System.out.println("please enter FeedBack ID Below:");
+	    	            		 while ((FeedBackID = in.readLine()) == null && FeedBackID.length() == 0);
+	    	            		 Rating.makeUsefullnessRating(Password, FeedBackID, rating, con.stmt);
 	    	            	 }
 	    	            	 if (c==6)
 	    	            	 {
@@ -201,9 +282,24 @@ public class testdriver2 {
 	    	            	 {
 	    	            		 //Get Statistics
 	    	            	 }
+	    	            	 if (c == 10)
+	    	            	 {
+	    	            		 //Mark other users as trusted
+	    	            		 String Username;
+	    	            		 isTrusted trust = new isTrusted();
+	    	            		 System.out.println("please enter UserName to trust Below:");
+	    	            		 while ((Username = in.readLine()) == null && Username.length() == 0);
+	    	            		 trust.markAsTrusted(Password, UserName, con.stmt);
+	    	            		 
+	    	            	 }
+	    	            	 if(c == 11)
+	    	            	 {
+	    	            		 //UC Browsing
+	    	            		 
+	    	            	 }
 	    	            	 
 	            		 }
-	            		 else if(isSuccessful =="There is a dirver with that name or password already" )
+	            		 else if(isSuccessful =="There is a driver with that name or password already" )
 	            		 {
 	            			 String choice2;
 	            			 System.out.println("Login Successful");
@@ -218,14 +314,31 @@ public class testdriver2 {
 	    	            	 }
 	    	            	 if (c<1 | c>3)
 	    	            		 continue;
-	    	            	 if (c==1)
+	    	            	 if (c==1) //Adding new Car
 	    	            	 {
-	    	            		 //1. Add new Car
+	    	            		 String catagory;
+	    	            		 String TypeID;
+	    	            		 NewUC car = new NewUC();
+	    	            		 System.out.println("please enter Catagory Below:");
+	    	            		 while ((catagory = in.readLine()) == null && catagory.length() == 0);
+	    	            		 System.out.println("please enter Type ID Below:");
+	    	            		 while ((TypeID = in.readLine()) == null && TypeID.length() == 0);
+	    	            		 car.makeNewUC(null, catagory, Password, con.stmt, TypeID);
 	    	            	 	 	    	            		 
 	    	            	 }
-	    	            	 if (c==2)
+	    	            	 if (c==2)//Updating existing car
 	    	            	 {
-	    	            		//2. Update Existing car
+	    	            		 String CarID;
+	    	            		 String catagory;
+	    	            		 String TypeID;
+	    	            		 NewUC car = new NewUC();
+	    	            		 System.out.println("please enter Car Id Below:");
+	    	            		 while ((CarID = in.readLine()) == null && CarID.length() == 0);
+	    	            		 System.out.println("please enter Catagory Below:");
+	    	            		 while ((catagory = in.readLine()) == null && catagory.length() == 0);
+	    	            		 System.out.println("please enter Type ID Below:");
+	    	            		 while ((TypeID = in.readLine()) == null && TypeID.length() == 0);
+	    	            		 car.makeNewUC(CarID, catagory, Password, con.stmt, TypeID);
 	    	            	 }
 	    	            	 if (c==3)
 	    	            	 {
