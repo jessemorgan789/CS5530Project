@@ -103,7 +103,7 @@ public class testdriver2 {
 	            			 	Registration reg =new Registration();
 	            			 	String avalibility = reg.checkRegistration(UserName, Password, con.stmt);
 	            			 	System.out.println(avalibility);
-	            			 	if(avalibility == "UserName and Password are avalible")
+	            			 	if(avalibility.equals("UserName and Password are avalible"))
 	            			 	{
 	            			 		String address;
 	            			 		String phone;
@@ -125,7 +125,7 @@ public class testdriver2 {
 	            			 	Registration reg =new Registration();
 	            			 	String avalibility = reg.checkRegistration(UserName, Password, con.stmt);
 	            			 	System.out.println(avalibility);
-	            			 	if(avalibility == "UserName and Password are avalible")
+	            			 	if(avalibility.equals("UserName and Password are avalible"))
 	            			 	{
 	            			 		String address;
 	            			 		String phone;
@@ -154,7 +154,7 @@ public class testdriver2 {
 	            		 System.out.println("please enter Password Below:");
 	            		 while ((Password = in.readLine()) == null && Password.length() == 0);
 	            		 String isSuccessful = login.checkRegistration(UserName, Password, con.stmt);
-	            		 if(isSuccessful == "There is a user with that name or password already")
+	            		 if(isSuccessful.equals("There is a user with that name or password already"))
 	            		 {
 	            			 String choice2;
 	            			 System.out.println("Login Successful");
@@ -186,7 +186,7 @@ public class testdriver2 {
 	    		            			 System.out.println("vehicle not found. Try again? 1 Yes 2 No");
 	    		            			 String newAnswer; 
 	    		            			 while ((newAnswer = in.readLine()) == null && newAnswer.length() == 0);
-	    		            			 if(newAnswer == "1")
+	    		            			 if(newAnswer.equals("1"))
 	    		            			 {
 	    		            				 continue;
 	    		            			 }
@@ -200,7 +200,7 @@ public class testdriver2 {
 		    		            		 while ((pid = in.readLine()) == null && pid.length() == 0);
 		    		            		 String answer = Res.checkReserveTime(DriverID, vin, pid, con.stmt);
 		    		            		 System.out.println(answer);
-		    		            		 if(answer == "Slot avalible")
+		    		            		 if(answer.equals("Slot avalible"))
 		    		            		 {
 		    		            			 String date;
 		    		            			 String cost;
@@ -216,7 +216,7 @@ public class testdriver2 {
 		    		            			 String keepGoing;
 		    		            			 System.out.println("Do you want to continue? 1 for yes 2 for no ");
 		    		            			 while ((keepGoing = in.readLine()) == null && keepGoing.length() == 0);
-		    		            			 if(keepGoing == "1")
+		    		            			 if(keepGoing.equals("1"))
 		    		            			 {
 		    		            				 continue;
 		    		            			 }
@@ -236,7 +236,7 @@ public class testdriver2 {
 	    	            		 System.out.println("Are these okay? 1 for Yes 2 for No");
 	    	            		 while ((finish = in.readLine()) == null && finish.length() == 0);
 	    	            		 Reservation newRes = new Reservation();
-	    	            		 if(finish == "1")
+	    	            		 if(finish.equals("1"))
 	    	            		 {
 	    	            			 String DrID;
     	            				 String VIN;
@@ -329,7 +329,7 @@ public class testdriver2 {
 	    	            	 }
 	    	            	 
 	            		 }
-	            		 else if(isSuccessful =="There is a driver with that name or password already" )
+	            		 else if(isSuccessful.equals("There is a driver with that name or password already" ))
 	            		 {
 	            			 String choice2;
 	            			 System.out.println("Login Successful");

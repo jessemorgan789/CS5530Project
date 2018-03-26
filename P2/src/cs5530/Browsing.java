@@ -35,13 +35,106 @@ public class Browsing {
 						sql = "select Car.vin, Type.Model from UD Driver UC Car, Ctypes Type, IsCtypes IsType"
 								+ " where Car.vin = IsType.vin AND IsType.tid = Type.tid AND Car.login = Driver.login AND Driver.address = '"+address+"'";
 					}
-					else //Model only
+					else //Model  and address
 					{
 						sql = "select Car.vin, Type.Model from UC Car, Ctypes Type, IsCtypes IsType"
-								+ " where Car.vin = IsType.vin AND IsType.tid = Type.tid AND Type.model = '"+model+"'";
+								+ " where Car.vin = IsType.vin AND IsType.tid = Type.tid AND Type.model = '"+model+"' AND Driver.address = '"+address+"'";
 								
 					}
 				}
+			}
+			else // Catagory maybe address, maybe model
+			{if(address == "none")
+			{
+				if(model.equals("none")) //Catagory only
+				{
+					sql = "select Car.vin, Type.Model from UC Car, Ctypes Type, IsCtypes IsType"
+							+ " where Car.vin = IsType.vin AND IsType.tid = Type.tid AND Car.login = Driver.login AND Car.category = '"+Catagory+"'";
+				}
+				else //Model, Catagory only
+				{
+					sql = "select Car.vin, Type.Model from UC Car, Ctypes Type, IsCtypes IsType"
+							+ " where Car.vin = IsType.vin AND IsType.tid = Type.tid AND Car.login = Driver.login AND Type.model = '"+model+"' AND Car.category = '"+Catagory+"'";
+							
+				}
+			}
+			else //Catagory and  address, maybe model
+			{
+				if(model.equals("none")) //Catagory Address ONly
+				{
+					sql = "select Car.vin, Type.Model from UD Driver UC Car, Ctypes Type, IsCtypes IsType"
+							+ " where Car.vin = IsType.vin AND IsType.tid = Type.tid AND Car.login = Driver.login AND Driver.address = '"+address+"'AND Car.category = '"+Catagory+"'";
+				}
+				else // Catagory Model and address
+				{
+					sql = "select Car.vin, Type.Model from UC Car, Ctypes Type, IsCtypes IsType"
+							+ " where Car.vin = IsType.vin AND IsType.tid = Type.tid AND Type.model = '"+model+"' AND Driver.address = '"+address+"'AND Car.category = '"+Catagory+"'";
+							
+				}
+			}
+			}
+		}
+		else
+		{
+			if(Catagory.equals("none"))
+			{
+				if(address == "none")
+				{
+					if(model.equals("none")) //All none
+					{
+						sql = "select * from UC";
+					}
+					else //Model only
+					{
+						sql = "select Car.vin, Type.Model from UC Car, Ctypes Type, IsCtypes IsType"
+								+ " where Car.vin = IsType.vin AND IsType.tid = Type.tid AND Car.login = Driver.login AND Type.model = '"+model+"'";
+								
+					}
+				}
+				else //address, maybe model
+				{
+					if(model.equals("none")) //Address ONly
+					{
+						sql = "select Car.vin, Type.Model from UD Driver UC Car, Ctypes Type, IsCtypes IsType"
+								+ " where Car.vin = IsType.vin AND IsType.tid = Type.tid AND Car.login = Driver.login AND Driver.address = '"+address+"'";
+					}
+					else //Model and Address only
+					{
+						sql = "select Car.vin, Type.Model from UC Car, Ctypes Type, IsCtypes IsType"
+								+ " where Car.vin = IsType.vin AND IsType.tid = Type.tid AND Type.model = '"+model+"' OR Driver.address = '"+address+"'";
+								
+					}
+				}
+			}
+			else // Catagory maybe address, maybe model
+			{if(address == "none")
+			{
+				if(model.equals("none")) //Catagory only
+				{
+					sql = "select Car.vin, Type.Model from UC Car, Ctypes Type, IsCtypes IsType"
+							+ " where Car.vin = IsType.vin AND IsType.tid = Type.tid AND Car.login = Driver.login AND Car.category = '"+Catagory+"'";
+				}
+				else //Model, Catagory only
+				{
+					sql = "select Car.vin, Type.Model from UC Car, Ctypes Type, IsCtypes IsType"
+							+ " where Car.vin = IsType.vin AND IsType.tid = Type.tid AND Car.login = Driver.login AND Type.model = '"+model+"' OR Car.category = '"+Catagory+"'";
+							
+				}
+			}
+			else //Catagory and  address, maybe model
+			{
+				if(model.equals("none")) //Catagory Address ONly
+				{
+					sql = "select Car.vin, Type.Model from UD Driver UC Car, Ctypes Type, IsCtypes IsType"
+							+ " where Car.vin = IsType.vin AND IsType.tid = Type.tid AND Car.login = Driver.login AND Driver.address = '"+address+"'OR Car.category = '"+Catagory+"'";
+				}
+				else // Catagory Model and address
+				{
+					sql = "select Car.vin, Type.Model from UC Car, Ctypes Type, IsCtypes IsType"
+							+ " where Car.vin = IsType.vin AND IsType.tid = Type.tid AND Type.model = '"+model+"' OR Driver.address = '"+address+"'OR Car.category = '"+Catagory+"'";
+							
+				}
+			}
 			}
 		}
 		
@@ -69,54 +162,6 @@ public class Browsing {
 		 	}
 		 	finally
 		 	{
-		 		try{
-   		 		if (rs!=null && !rs.isClosed())
-   		 			rs.close();
-		 		}
-		 		catch(Exception e)
-		 		{
-		 			System.out.println("cannot close resultset");
-		 		}
-		 		
-		 	}
-	    return output;
-	}
-	public String checkRegistration(String userName, String Password, Statement stmt)
-	{
-		String sql="select * from UU where name = "+userName+" and login = "+Password;
-		String output="";
-		ResultSet rs=null;
-		 	System.out.println("executing "+sql);
-		 	try{
-   		 	rs=stmt.executeQuery(sql);
-   		 	if(rs.first())
-   		 	{
-   		 		output = "There is a user with that name or password already";
-   		 	}
-   		 	else
-   		 	{
-   		 		sql="select * from UD where name like '%"+userName+"%' and login like '%"+Password+"%'";
-   		 		System.out.println("executing "+sql);
-   		 		rs=stmt.executeQuery(sql);
-   		 		if(rs.first())
-   		 		{
-   		 			output = "There is a driver with that name or password already";
-   		 		}
-   		 		else
-   		 		{
-   		 			output = "UserName and Password are avalible";
-   		 		}
-   		 	}
-   		 	rs.close();
-		 	}
-		 	catch(Exception e)
-		 	{
-		 		System.out.println("cannot execute the query");
-		 		output = "error";
-		 	}
-		 	finally
-		 	{
-		 		
 		 		try{
    		 		if (rs!=null && !rs.isClosed())
    		 			rs.close();
