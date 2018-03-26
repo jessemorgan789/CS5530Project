@@ -9,7 +9,7 @@ public class Registration {
 	{}
 	public String makeRegistrationForDriver(String userName, String Password, String address, String phone, Statement stmt)
 	{
-		String sql = String.format("insert into UD Values(%s, %2d, %3d, %4d)", userName, Password, address, phone);
+		String sql = String.format("insert into UD Values('%s', '%2d', '%3d', '%4d')", userName, Password, address, phone);
 		String output="";
 		ResultSet rs=null;
 		 	System.out.println("executing "+sql);
@@ -38,7 +38,7 @@ public class Registration {
 	}
 	public String makeRegistrationForUser(String userName, String Password, String address, String phone, Statement stmt)
 	{
-		String sql = String.format("insert into UU Values(%s, %2d, %3d, %4d)", userName, Password, address, phone);
+		String sql = String.format("insert into UU Values('%s', '%2d', '%3d', '%4d')", userName, Password, address, phone);
 		String output="";
 		ResultSet rs=null;
 		 	System.out.println("executing "+sql);
@@ -67,7 +67,7 @@ public class Registration {
 	}
 	public String checkRegistration(String userName, String Password, Statement stmt)
 	{
-		String sql="SELECT * FROM UU WHERE name = "+userName+" AND login = "+Password;
+		String sql="SELECT * FROM UU WHERE name = '"+userName+"' AND login = '"+Password+"'";
 		String output="";
 		ResultSet rs=null;
 		 	System.out.println("executing "+sql);
