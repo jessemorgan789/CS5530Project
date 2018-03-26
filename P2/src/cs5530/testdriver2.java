@@ -2,7 +2,6 @@ package cs5530;
 
 
 import java.lang.*;
-import java.time.LocalDate;
 import java.sql.*;
 import java.util.ArrayList;
 import java.awt.List;
@@ -33,7 +32,8 @@ public class testdriver2 {
    	 	System.out.println("7. Get Feedback for Uber Driver:");
 	 	System.out.println("8. Get Suggestions:");
 	 	System.out.println("9. Get Statistics:");
-	 	System.out.println("9. Mark other Users as trusted:");
+	 	System.out.println("10. Mark other Users as trusted:");
+	 	System.out.println("11. Browse Cars");
    	 	System.out.println("please enter your choice:");
 	}
 	public static void displayMenuForDriver()
@@ -63,7 +63,7 @@ public class testdriver2 {
 	             System.out.println ("Database connection established");
 	         
 	             BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-	             
+
 	             while(true)
 	             {
 	            	 displayMenuFirst();
@@ -112,7 +112,7 @@ public class testdriver2 {
 		            			 	while ((address = in.readLine()) == null && address.length() == 0);
 		            			 	System.out.println("please enter a phone:");
 		            			 	while ((phone = in.readLine()) == null && phone.length() == 0);
-		            			 	reg.makeRegistrationForDriver(UserName, Password, address, phone, con.stmt);
+		            			 	System.out.println(reg.makeRegistrationForDriver(UserName, Password, address, phone, con.stmt));
 		            			 	correctReg = false;
 	            			 	}
 	            			 }
@@ -134,7 +134,7 @@ public class testdriver2 {
 		            			 	while ((address = in.readLine()) == null && address.length() == 0);
 		            			 	System.out.println("please enter a phone:");
 		            			 	while ((phone = in.readLine()) == null && phone.length() == 0);
-		            			 	reg.makeRegistrationForUser(UserName, Password, address, phone, con.stmt);
+		            			 	System.out.println(reg.makeRegistrationForUser(UserName, Password, address, phone, con.stmt));
 		            			 	correctReg = false;
 	            			 	}
 	            			 }
@@ -166,7 +166,7 @@ public class testdriver2 {
 	    	            	 {	    	            		 
 	    	            		 continue;
 	    	            	 }
-	    	            	 if (c<1 | c>10)
+	    	            	 if (c<1 | c>11)
 	    	            		 continue;
 	    	            	 if (c==1)
 	    	            	 {
@@ -182,36 +182,50 @@ public class testdriver2 {
 	    	            			 System.out.println("please enter Vehicle ID you want to reserve Below:");
 	    		            		 while ((vin = in.readLine()) == null && vin.length() == 0);
 	    		            		 DriverID = Res.printAvalibleAndGetDriver(vin, con.stmt);
-	    		            		 System.out.println("please select pid from above:");
-	    		            		 while ((pid = in.readLine()) == null && pid.length() == 0);
-	    		            		 String answer = Res.checkReserveTime(DriverID, vin, pid, con.stmt);
-	    		            		 System.out.println(answer);
-	    		            		 if(answer == "Slot avalible")
-	    		            		 {
-	    		            			 String date;
-	    		            			 String cost;
-	    		            			 System.out.println("please enter the date you want to reserve Below:");
-		    		            		 while ((date = in.readLine()) == null && date.length() == 0);
-		    		            		 System.out.println("please enter the cost:");
-		    		            		 while ((cost = in.readLine()) == null && cost.length() == 0);
-		    		            		 String userObject = new String();
-		    		            		 userObject = DriverID + " " + vin + " " + pid + " " + cost + " " +date;
-		    		            		 userChoices.add(userObject);
-	    		            		 }
-	    		            		 else {
-	    		            			 String keepGoing;
-	    		            			 System.out.println("Do you want to continue? 1 for yes 2 for no ");
-	    		            			 while ((keepGoing = in.readLine()) == null && keepGoing.length() == 0);
-	    		            			 if(keepGoing == "1")
+	    		            		 if(DriverID == "error") {
+	    		            			 System.out.println("vehicle not found. Try again? 1 Yes 2 No");
+	    		            			 String newAnswer; 
+	    		            			 while ((newAnswer = in.readLine()) == null && newAnswer.length() == 0);
+	    		            			 if(newAnswer == "1")
 	    		            			 {
 	    		            				 continue;
 	    		            			 }
-	    		            			 else if(keepGoing == "2")
+	    		            			 else
 	    		            			 {
 	    		            				 wantToContinue = false;
 	    		            			 }
 	    		            		 }
-	    		            		 
+	    		            		 else {
+		    		            		 System.out.println("please select pid from above:");
+		    		            		 while ((pid = in.readLine()) == null && pid.length() == 0);
+		    		            		 String answer = Res.checkReserveTime(DriverID, vin, pid, con.stmt);
+		    		            		 System.out.println(answer);
+		    		            		 if(answer == "Slot avalible")
+		    		            		 {
+		    		            			 String date;
+		    		            			 String cost;
+		    		            			 System.out.println("please enter the date you want to reserve Below:");
+			    		            		 while ((date = in.readLine()) == null && date.length() == 0);
+			    		            		 System.out.println("please enter the cost:");
+			    		            		 while ((cost = in.readLine()) == null && cost.length() == 0);
+			    		            		 String userObject = new String();
+			    		            		 userObject = DriverID + " " + vin + " " + pid + " " + cost + " " +date;
+			    		            		 userChoices.add(userObject);
+		    		            		 }
+		    		            		 else {
+		    		            			 String keepGoing;
+		    		            			 System.out.println("Do you want to continue? 1 for yes 2 for no ");
+		    		            			 while ((keepGoing = in.readLine()) == null && keepGoing.length() == 0);
+		    		            			 if(keepGoing == "1")
+		    		            			 {
+		    		            				 continue;
+		    		            			 }
+		    		            			 else 
+		    		            			 {
+		    		            				 wantToContinue = false;
+		    		            			 }
+		    		            		 }
+	    		            		 }
 	    	            		 }
 	    	            		 String finish;
 	    	            		 System.out.println("Here are your selections");
@@ -245,63 +259,15 @@ public class testdriver2 {
 	    	            	 if (c==2)
 	    	            	 {
 	    	            		 //Record a ride
-	    	            		 
 	    	            	 }
 	    	            	 if (c==3)
 	    	            	 {
+	    	            		 
 	    	            		 // Declare favorite Car
-	    	            		 FavoriteCar fc = new FavoriteCar();
-	    	            		 String make;
-	    	            		 String model;
-	    	            		 String driverName;
-	      	            		 System.out.println("Please enter the username of the uber driver you would like to favorite.");
-	      	            		 while ((driverName = in.readLine()) == null && driverName.length() == 0);
-	      	            		 System.out.println("Please enter the make of the car you would like to favorite.");
-	      	            		 while ((make = in.readLine()) == null && make.length() == 0);
-	      	            		 System.out.println("Please enter the model of the car you would like to favorite.");
-	      	            		 while ((model = in.readLine()) == null && model.length() == 0);
-	      	            		 // Get vehicle id of cars from driver
-	      	            		 ArrayList<String> vin = fc.getCars(driverName, con.stmt);
-	      	            		 for (int i = 0; i < vin.size(); i++) {
-	      	            			 ArrayList<String> result = fc.checkMakeModel(make, model, vin.get(i), con.stmt);
-	      	            			 if (result.size() != 0) {
-	      	            				 System.out.println(String.format("Are you sure you want to add the %s %s as a favorite car?", make, model));
-	      	            				 System.out.println("y or n");
-	      	            				 String input;
-	      	            				 while ((input = in.readLine()) == null && input.length() == 0);
-	      	            				 if (input.equals("y") || input.equals("Y")) {
-	      	            					 fc.AddFavorite(make, model, result.get(0), UserName, con.stmt);
-	      	            				 }
-	      	            			 }
-	      	            		 }	 
 	    	            	 }
 	    	            	 if (c==4)
 	    	            	 {
 	    	            		 //Give Feedback
-	    	            		 FeedBack fb = new FeedBack();
-	    	            		 String make;
-	    	            		 String model;
-	    	            		 String driverName;
-	      	            		 System.out.println("Please enter the username of the uber driver you would like to rate.");
-	      	            		 while ((driverName = in.readLine()) == null && driverName.length() == 0);
-	      	            		 System.out.println("Please enter the make of the car you would like to rate.");
-	      	            		 while ((make = in.readLine()) == null && make.length() == 0);
-	      	            		 System.out.println("Please enter the model of the car you would like to rate.");
-	      	            		 while ((model = in.readLine()) == null && model.length() == 0);
-	      	            		 ArrayList<String> vin = fb.getCars(driverName, con.stmt);
-	      	            		 for (int i = 0; i < vin.size(); i++) {
-	      	            			 ArrayList<String> result = fb.CheckMakeModel(make, model, vin.get(i), con.stmt);
-	      	            			 if (result.size() != 0) {
-	      	            				 String rating;
-	      	            				 String text;
-	      	            				 System.out.println("Rate from 1(Bad) to 10(Good)");
-	    	      	            		 while ((rating = in.readLine()) == null && rating.length() == 0);
-	    	      	            		 System.out.println("Optional text for feedback:");
-	    	      	            		 while ((text = in.readLine()) == null && text.length() == 0);
-	    	      	            		 int fid = fb.GetFid(con.stmt);
-	    	      	            		 fb.AddFeedback(UserName, Integer.toString(fid), text, result.get(0), con.stmt);
-	      	            			 }
-	      	            		 }
 	    	            	 }
 	    	            	 if (c==5)
 	    	            	 {
@@ -321,9 +287,7 @@ public class testdriver2 {
 	    	            	 }
 	    	            	 if (c==7)
 	    	            	 {
-	    	            		 String numOfReviews;
-	    	            		 System.out.println("How many reviews would you like?");
-	    	            		 while ((numOfReviews = in.readLine()) == null && numOfReviews.length() == 0);
+	    	            		 //Get Feedback for Uber Driver
 	    	            	 }
 	    	            	 if (c==8)
 	    	            	 {
@@ -346,6 +310,21 @@ public class testdriver2 {
 	    	            	 if(c == 11)
 	    	            	 {
 	    	            		 //UC Browsing
+	    	            		 String Catagory;
+	    	            		 String Address;
+	    	            		 String Model;
+	    	            		 String ORorAND;
+	    	            		 System.out.println("please enter a car Catagory or type none to skip:");
+	    	            		 while ((Catagory = in.readLine()) == null && Catagory.length() == 0);
+	    	            		 System.out.println("please enter an Address or type none to skip:");
+	    	            		 while ((Address = in.readLine()) == null && Address.length() == 0);
+	    	            		 System.out.println("please enter a Car Model or type none to skip:");
+	    	            		 while ((Model = in.readLine()) == null && Model.length() == 0);
+	    	            		 System.out.println("Would you like to OR or AND these things?");
+	    	            		 while ((ORorAND = in.readLine()) == null && ORorAND.length() == 0);
+	    	            		 Browsing browse = new Browsing();
+	    	            		 browse.findCars(Catagory, Address, Model, ORorAND, con.stmt);
+	    	            		 
 	    	            		 
 	    	            	 }
 	    	            	 
@@ -357,7 +336,7 @@ public class testdriver2 {
 	            			 displayMenuForDriver();
 	            			 while ((choice2 = in.readLine()) == null && choice2.length() == 0);
 	    	            	 try{
-	    	            		 c = Integer.parseInt(choice);
+	    	            		 c = Integer.parseInt(choice2);
 	    	            	 }catch (Exception e)
 	    	            	 {
 	    	            		 
@@ -419,7 +398,6 @@ public class testdriver2 {
 	            	 {   
 	            		 System.out.println("EoM");
 	            		 con.stmt.close(); 
-	            		 con.closeConnection();
 	        
 	            		 break;
 	            	 }

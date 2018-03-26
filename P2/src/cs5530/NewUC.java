@@ -13,59 +13,41 @@ public class NewUC {
 		{
 		vin = getVin(stmt);
 		
-		String sql = String.format("insert into UC Values(%s, %2d, %3d, %4d)", vin, catagory, loginUD);
+		String sql = String.format("insert into UC Values(%s, '%s', %s)", vin, catagory, loginUD);
 		String output="";
 		ResultSet rs=null;
 		 	System.out.println("executing "+sql);
 		 	try{
-   		 	rs=stmt.executeQuery(sql);
-   		 	rs.close();
+		 		stmt.executeUpdate(sql);
 		 	}
 		 	catch(Exception e)
 		 	{
 		 		System.out.println("cannot execute the query");
+		 		System.out.println(e.getMessage());
 		 	}
 		 	finally
-		 	{
-		 		try{
-   		 		if (rs!=null && !rs.isClosed())
-   		 			rs.close();
-		 		}
-		 		catch(Exception e)
-		 		{
-		 			System.out.println("cannot close resultset");
-		 		}
-		 		
+		 	{		 		
 		 	}
-		 	sql = String.format("insert into IsCtypes Values(%s, %2d, %3d, %4d)", vin, tid);
-		 	rs=null;
+		 	sql = String.format("insert into IsCtypes Values(%s, %s)", vin, tid);
 			 	System.out.println("executing "+sql);
 			 	try{
-	   		 	rs=stmt.executeQuery(sql);
+	   		 	stmt.executeUpdate(sql);
 	   		 	output = "Insertion Successful, Car is registered!";
-	   		 	rs.close();
+
 			 	}
 			 	catch(Exception e)
 			 	{
 			 		System.out.println("cannot execute the query");
+			 		System.out.println(e.getMessage());
 			 	}
 			 	finally
 			 	{
-			 		try{
-	   		 		if (rs!=null && !rs.isClosed())
-	   		 			rs.close();
-			 		}
-			 		catch(Exception e)
-			 		{
-			 			System.out.println("cannot close resultset");
-			 		}
-			 		
 			 	}
 	    return output;
 		}
 		else
 		{
-			String sql = String.format("UPDATE UC SET category = %s where vin = %2d)", catagory, vin);
+			String sql = String.format("UPDATE UC SET category = %s where vin = %s)", catagory, vin);
 			String output="";
 			ResultSet rs=null;
 			 	System.out.println("executing "+sql);
@@ -121,29 +103,29 @@ public class NewUC {
 	{
 		String result;
 		int returnNum;
-		String sql="select * from UC where vin >= MAX(vin)";
+		String sql="select MAX(vin) from UC";
 		String output="";
 		ResultSet rs=null;
 		 	System.out.println("executing "+sql);
 		 	try{
    		 	rs = stmt.executeQuery(sql);
-   		 	if(rs.first())
-   		 	{
-   		 		result = rs.getNString("vin");
+
+   		 		result = rs.getString(1);
    		 		returnNum = Integer.parseInt(result);
    		 		returnNum += 1;
-   		 		output = Integer.toString(returnNum);
-   		 	}
-   		 	else
-   		 	{
-   		 		output = "0";
-   		 	}
-   		 	
+   		 		output = Integer.toString(returnNum);   		 	
    		 	rs.close();
 		 	}
 		 	catch(Exception e)
 		 	{
-		 		System.out.println("cannot execute the query");
+		 		String error = e.getMessage();
+		 		if(error == null)
+		 		{
+		 			output = "0";
+		 		}
+		 		else {
+		 			System.out.println("cannot execute the query");
+		 		}
 		 	}
 		 	finally
 		 	{

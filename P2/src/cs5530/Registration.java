@@ -9,59 +9,43 @@ public class Registration {
 	{}
 	public String makeRegistrationForDriver(String userName, String Password, String address, String phone, Statement stmt)
 	{
-		String sql = String.format("insert into UD Values('%s', '%2d', '%3d', '%4d')", userName, Password, address, phone);
+		String sql = String.format("insert into UD (login, name, address, phone) Values(%s, '%s', %s, %s)", Password, userName,  address, phone);
 		String output="";
-		ResultSet rs=null;
+
 		 	System.out.println("executing "+sql);
 		 	try{
-   		 	rs=stmt.executeQuery(sql);
+   		 	stmt.executeUpdate(sql);
    		 	output = "Insertion Successful, Welcome to Uber!";
-   		 	rs.close();
 		 	}
 		 	catch(Exception e)
 		 	{
 		 		System.out.println("cannot execute the query");
+		 		System.out.println(e.getMessage());
+		 		
 		 	}
 		 	finally
 		 	{
-		 		try{
-   		 		if (rs!=null && !rs.isClosed())
-   		 			rs.close();
-		 		}
-		 		catch(Exception e)
-		 		{
-		 			System.out.println("cannot close resultset");
-		 		}
-		 		
 		 	}
 	    return output;
 	}
 	public String makeRegistrationForUser(String userName, String Password, String address, String phone, Statement stmt)
 	{
-		String sql = String.format("insert into UU Values('%s', '%2d', '%3d', '%4d')", userName, Password, address, phone);
+		String sql = String.format("insert into UU (login, name, address, phone) Values(%s, '%s', %s, %s)", Password, userName,  address, phone);
 		String output="";
-		ResultSet rs=null;
+
 		 	System.out.println("executing "+sql);
 		 	try{
-   		 	rs=stmt.executeQuery(sql);
+   		 	stmt.executeUpdate(sql);
    		 	output = "Insertion Successful, Welcome to Uber!";
-   		 	rs.close();
 		 	}
 		 	catch(Exception e)
 		 	{
 		 		System.out.println("cannot execute the query");
+		 		System.out.println(e.getMessage());
+		 		
 		 	}
 		 	finally
 		 	{
-		 		try{
-   		 		if (rs!=null && !rs.isClosed())
-   		 			rs.close();
-		 		}
-		 		catch(Exception e)
-		 		{
-		 			System.out.println("cannot close resultset");
-		 		}
-		 		
 		 	}
 	    return output;
 	}
@@ -79,7 +63,7 @@ public class Registration {
    		 	}
    		 	else
    		 	{
-   		 		sql="SELECT * FROM UD WHERE name = "+userName+" AND login = "+Password;
+   		 		sql="SELECT * FROM UD WHERE name = '"+userName+"' AND login = '"+Password+"'";
    		 		System.out.println("executing "+sql);
    		 		rs=stmt.executeQuery(sql);
    		 		if(rs.first())
